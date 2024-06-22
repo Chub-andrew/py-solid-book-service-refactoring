@@ -1,7 +1,7 @@
-from book import Book
-from display import ConsoleDisplay, ReverseDisplay
-from print import ConsolePrint, ReversePrint
-from serializers import JSONSerialize, XMLSerialize
+from app.book import Book
+from app.display import ConsoleDisplay, ReverseDisplay
+from app.print import ConsolePrint, ReversePrint
+from app.serialize import JSONSerialize, XMLSerialize
 
 
 def main(book: Book, commands: list[tuple[str, str]]) -> None | str:
