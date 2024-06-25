@@ -20,25 +20,34 @@ def main(book: Book, commands: list[tuple[str, str]]) -> None | str:
         "xml": XMLSerialize()
     }
 
+    def display_command(book: Book, method_type: str) -> None:
+        strategy = display_strategies.get(method_type)
+        if strategy:
+            strategy.display(book.content)
+        else:
+            raise ValueError(f"Unknown display type: {method_type}")
+
+    def print_command(book: Book, method_type: str) -> None:
+        strategy = print_strategies.get(method_type)
+        if strategy:
+            strategy.print_book(book.title, book.content)
+        else:
+            raise ValueError(f"Unknown print type: {method_type}")
+
+    def serialize_command(book: Book, method_type: str) -> str:
+        strategy = serialize_strategies.get(method_type)
+        if strategy:
+            return strategy.serialize(book.title, book.content)
+        else:
+            raise ValueError(f"Unknown serialize type: {method_type}")
+
     for cmd, method_type in commands:
         if cmd == "display":
-            strategy = display_strategies.get(method_type)
-            if strategy:
-                strategy.display(book.content)
-            else:
-                raise ValueError(f"Unknown display type: {method_type}")
+            display_command(book, method_type)
         elif cmd == "print":
-            strategy = print_strategies.get(method_type)
-            if strategy:
-                strategy.print_book(book.title, book.content)
-            else:
-                raise ValueError(f"Unknown print type: {method_type}")
+            print_command(book, method_type)
         elif cmd == "serialize":
-            strategy = serialize_strategies.get(method_type)
-            if strategy:
-                return strategy.serialize(book.title, book.content)
-            else:
-                raise ValueError(f"Unknown serialize type: {method_type}")
+            return serialize_command(book, method_type)
 
 
 if __name__ == "__main__":
